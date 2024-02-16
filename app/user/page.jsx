@@ -5,7 +5,7 @@ import React, {useState, useEffect} from 'react'
 const Page = () => {
   const [allProducts, setAllProducts] = useState([])
   const [isLoaded, setIsLoaded] = useState(false)
-  const [currentViewingMode, setcurrentViewingMode] = useState('pending')
+  const [currentViewingMode, setcurrentViewingMode] = useState('all')
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -19,7 +19,15 @@ const Page = () => {
     fetchData()
   }, [])
 
-  console.log('type is: ', typeof(allProducts))
+  useEffect(()=>{
+    const intervalId = setInterval(() => {
+      setcurrentViewingMode(localStorage.getItem('viewingMode'))
+    }, 500);
+
+    return ()=>clearInterval(intervalId)
+
+  }, [])
+
   let cardElements = []
   let pendingElements = []
   let approvedElements = []
